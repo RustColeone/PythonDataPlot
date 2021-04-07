@@ -6,7 +6,7 @@ Simple Data Plotting with Python
 `plotData.py` is all that is required, other files are the data provided as samples.
 
 ```
-plotData.py -i <inputFile> -o <outputFile.xxx> -d <delimiter> -x <x-min> -X <X-max> -y <y-min> -Y <Y-max> -H <Horizontal-Tick> -V <Vertical-Tick>
+plotData.py -i <inputFile> -o <outputFile.xxx> -d <delimiter> -x <x-min> -X <X-max> -y <y-min> -Y <Y-max> -H <Horizontal-Tick> -V <Vertical-Tick> -e <True/False ErrorBar>
 ```
 Unassigned parameters take default values
 
@@ -24,3 +24,10 @@ plotData.py -i "ST90 Radiation Over Distance.csv" -o ST90OverDistancePlot.png -H
 Then final product, "ST90OverDistancePlot.png", the plot of "ST90 Radiation Over Distance.csv" should look like this with
 
 ![SampleData](ST90OverDistancePlot.png)
+
+```
+plotData.py -i "ST90 Radiation Over Distance.csv" -o ST90OverDistancePlotNoErrorBar.png -H 10 -V 5 -e false
+```
+Here's the same data without the errorbar
+
+![SampleData](ST90OverDistancePlotNoErrorBar.png)

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 import sys, getopt
 
-def plotFile(fileName, delimiter, saveFile, xRange, yRange, hTick, vTick):
+def plotFile(fileName, delimiter, saveFile, xRange, yRange, hTick, vTick, errorBar):
     #Edit this here
     title0, title1, title2, title3 = np.loadtxt(fileName, delimiter=delimiter, dtype='str', unpack=False, max_rows=1)
     data1, ddata1, data2, ddata2 = np.loadtxt(fileName, delimiter=delimiter, unpack=True, skiprows=1)
@@ -18,7 +18,6 @@ def plotFile(fileName, delimiter, saveFile, xRange, yRange, hTick, vTick):
     # errorbar(x,y,yneg,ypos,xneg,xpos) plots y vs x and makes error bars for both the x and
     # y directions. yneg and ypos set the size of the top and bottom half of the error bars 
     # respectively, while xneg and xpos do the same for error bars in the x direction.
-    errorBar = False
     if(errorBar):
         ax1.errorbar(data1, data2, ddata2, fmt='k.', label = '{} Data'.format(title2), capsize = 5, ecolor = 'blue')
     else:
@@ -90,14 +89,15 @@ def plotFile(fileName, delimiter, saveFile, xRange, yRange, hTick, vTick):
 def main(argv):
     inputfile = "exampleData.csv"
     outputFile = "exampleData"
+    errorBar = True
     xRange = [0,0]
     yRange = [0,0]
     hTick = 10
     vTick = 5
     delimiter = ","
     argumentList = sys.argv[1:]
-    options = "hi:o:d:x:y:X:Y:H:V:"
-    long_options = ["help", "input", "output", "delimiter", "x-min", "y-min", "x-max", "y-max", "horizontal-tick", "vertical-tick"]
+    options = "hi:o:d:x:y:X:Y:H:V:e:"
+    long_options = ["help", "input", "output", "delimiter", "x-min", "y-min", "x-max", "y-max", "horizontal-tick", "vertical-tick", "error-bar"]
 
     try:
         # Parsing argument
@@ -136,13 +136,17 @@ def main(argv):
             
             elif currentArgument in ("-V", "--vertical-tick"):
                 vTick = float(currentValue)
+
+            elif currentArgument in ("-e", "--error-bar"):
+                if(currentValue.lower() == "false"):
+                    errorBar = False
         if(plot):
-            plotFile(inputfile, delimiter, outputFile, xRange, yRange, hTick, vTick)
+            plotFile(inputfile, delimiter, outputFile, xRange, yRange, hTick, vTick, errorBar)
 
     except getopt.error as err:
         # output error, and return with an error code
         print (str(err))
-        print ("Usage: plotData.py -i <inputFile.csv> -o <outputFile.xxx> -d <delimiter> -x <x-min> -X <X-max> -y <y-min> -Y <Y-max> -H <Horizontal-Tick> -V <Vertical-Tick>")
+        print ("Usage: plotData.py -i <inputFile.csv> -o <outputFile.xxx> -d <delimiter> -x <x-min> -X <X-max> -y <y-min> -Y <Y-max> -H <Horizontal-Tick> -V <Vertical-Tick> -e <True/False ErrorBar>")
 
 if __name__ == "__main__":
    main(sys.argv[1:])
